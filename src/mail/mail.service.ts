@@ -12,7 +12,7 @@ export class MailService {
     await this.mailerService.sendMail({
       to: user.email,
       from: '"Veacos Team" <suporte@munatask.com>',
-      subject: 'Welcome to Nice App! Confirm your Email',
+      subject: 'Redefinição de senha App Veacos',
       template: 'templates/confirmation.hbs',
       context: {
         name: user.name,

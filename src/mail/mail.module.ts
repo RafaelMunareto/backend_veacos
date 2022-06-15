@@ -18,11 +18,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         },
       },
       defaults: {
-        from: '"No Reply" <noreply@example.com>',
+        from: '"No Reply" <noreply@munatask.com>',
       },
       template: {
         dir: join(__dirname, 'templates'),
-        adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+        adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
         },
@@ -30,6 +30,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [MailService],
-  exports: [MailService], // 👈 export for DI
+  exports: [MailService],
 })
 export class MailModule {}

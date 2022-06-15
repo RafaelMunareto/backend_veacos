@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -57,12 +57,12 @@ export class UsersService {
     return match;
   }
 
-  public async sendEmailPassword(email: String) {
+  public async sendEmailPassword(email: String, res) {
     const user = await this.usersModel.findOne({ email });
     if (!user) {
       throw new NotFoundException('Email not found.');
     }
-    const token = Math.floor(1000 + Math.random() * 9000).toString();
-    await this.mailService.sendUserConfirmation(user, token);
+    await this.mailService.sendUserConfirmation(user, user.id);
+    return res.status(HttpStatus.OK).json('E-email enviado com sucesso!');
   }
 }

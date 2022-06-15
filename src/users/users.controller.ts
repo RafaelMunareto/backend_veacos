@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -52,7 +53,7 @@ export class UsersController {
 
   @Get('mail/change_password/:email')
   @HttpCode(HttpStatus.OK)
-  public async sendEmailPassword(@Param('email') params: string) {
-    return this.usersService.sendEmailPassword(params);
+  public async sendEmailPassword(@Param('email') params: string, @Res() res) {
+    return this.usersService.sendEmailPassword(params, res);
   }
 }
