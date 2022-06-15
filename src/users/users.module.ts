@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersSchema } from './schemas/users.schema';
 import { AuthModule } from '../auth/auth.module';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from '../auth/auth.module';
       },
     ]),
     AuthModule,
+    MailModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

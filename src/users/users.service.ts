@@ -6,6 +6,7 @@ import { User } from './models/users.model';
 import { AuthService } from '../auth/auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { SigninDto } from './dto/signin.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,7 @@ export class UsersService {
     @InjectModel('User')
     private readonly usersModel: Model<User>,
     private readonly authService: AuthService,
+    private mailService: MailService,
   ) {}
 
   public async signup(signupDto: SignupDto): Promise<User> {
@@ -53,5 +55,14 @@ export class UsersService {
       throw new NotFoundException('Password not found.');
     }
     return match;
+  }
+
+  public async sendEmailPassword(email: String) {
+    const user = await this.usersModel.findOne({ email });
+    if (!user) {
+      throw new NotFoundException('Email not found.');
+    }
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
+    await this.mailService.sendUserConfirmation(user, token);
   }
 }

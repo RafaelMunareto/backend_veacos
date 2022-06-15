@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -36,5 +37,11 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   public async findAll(): Promise<User[]> {
     return this.usersService.findAll();
+  }
+
+  @Get('mail/change_password/:email')
+  @HttpCode(HttpStatus.OK)
+  public async sendEmailPassword(@Param('email') params: string) {
+    return this.usersService.sendEmailPassword(params);
   }
 }
