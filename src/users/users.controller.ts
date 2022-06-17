@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -55,5 +56,11 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   public async sendEmailPassword(@Param('email') params: string, @Res() res) {
     return this.usersService.sendEmailPassword(params, res);
+  }
+
+  @Put('change_password/:id')
+  @HttpCode(HttpStatus.OK)
+  public async changePassword(@Param('id') id: string, @Body() password) {
+    return this.usersService.changePassword(id, password);
   }
 }

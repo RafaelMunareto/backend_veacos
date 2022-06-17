@@ -62,7 +62,16 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('Email not found.');
     }
-    await this.mailService.sendUserConfirmation(user, user.id);
-    return res.status(HttpStatus.OK).json('E-email enviado com sucesso!');
+    await this.mailService.sendUserConfirmation(user);
+    return res.status(HttpStatus.OK).json('Email enviado com sucesso!');
+  }
+
+  public async changePassword(id: string, body) {
+    const user = await this.usersModel.findById(id);
+    if (!user) {
+      throw new NotFoundException('Email not found.');
+    }
+    await user.updateOne({ password: body.password });
+    return user;
   }
 }
