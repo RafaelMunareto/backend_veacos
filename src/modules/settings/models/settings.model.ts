@@ -4,7 +4,7 @@ import { Grupo } from './grupo.model';
 
 export interface Settings extends Document {
   id: string;
-  foto: string;
+  urlImagem: string;
   grupo: Grupo;
   user: User;
 }

@@ -1,4 +1,6 @@
 import * as mongoose from 'mongoose';
+import { UsersSchema } from 'src/modules/users/schemas/users.schema';
+import { GrupoSchema } from './grupo.schema';
 
 export const SettingsSchema = new mongoose.Schema({
   id: {
@@ -8,7 +10,11 @@ export const SettingsSchema = new mongoose.Schema({
     type: String,
   },
   grupo: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grupo',
   },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });

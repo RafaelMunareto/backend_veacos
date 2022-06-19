@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GrupoDto } from './dto/grupo.dto';
@@ -28,11 +32,20 @@ export class GrupoService {
     return grupo.save();
   }
   public async update(grupoDto: GrupoDto, id: String): Promise<Grupo> {
+    await this.checkId(id);
     const grupo = await this.grupoModel.findById(id);
     return grupo.updateOne(grupoDto);
   }
   public async delete(id: String): Promise<Grupo> {
+    await this.checkId(id);
     const grupo = await this.grupoModel.findById(id);
     return grupo.deleteOne();
+  }
+
+  public async checkId(id: String) {
+    const user = await this.grupoModel.findById(id);
+    if (!user) {
+      throw new NotFoundException('Grupo não encontrado.');
+    }
   }
 }
