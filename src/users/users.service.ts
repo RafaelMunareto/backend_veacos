@@ -27,13 +27,10 @@ export class UsersService {
   ): Promise<{ name: string; jwtToken: string; email: string }> {
     const user = await this.findByEmail(signinDto.email);
     const match = await this.checkPassword(signinDto.password, user);
-
     if (!match) {
       throw new NotFoundException('Invalid credentials.');
     }
-
     const jwtToken = await this.authService.createAccessToken(user._id);
-
     return { name: user.name, jwtToken, email: user.email };
   }
 

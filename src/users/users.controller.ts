@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Res,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -21,6 +22,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 
 @ApiTags('Users')
 @Controller('users')
@@ -37,6 +39,7 @@ export class UsersController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
+  @UseFilters(new I18nValidationExceptionFilter())
   public async signin(
     @Body() signinDto: SigninDto,
   ): Promise<{ name: string; jwtToken: string; email: string }> {

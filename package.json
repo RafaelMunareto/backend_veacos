@@ -38,6 +38,8 @@
     "handlebars": "^4.7.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.6",
+    "nestjs-i18n": "^9.1.1",
+    "nestjs-translates": "^1.0.3",
     "nodemailer": "^6.7.5",
     "passport": "^0.5.3",
     "passport-jwt": "^4.0.0",
