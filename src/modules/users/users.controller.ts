@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Res,
-  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -22,7 +21,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 
 @ApiTags('Users')
 @Controller('users')

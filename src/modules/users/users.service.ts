@@ -6,7 +6,7 @@ import { User } from './models/users.model';
 import { AuthService } from '../auth/auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { SigninDto } from './dto/signin.dto';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'src/shared/mail/mail.service';
 
 @Injectable()
 export class UsersService {
