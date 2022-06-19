@@ -4,7 +4,7 @@ export const SettingsSchema = new mongoose.Schema({
   id: {
     type: String,
   },
-  urlImagem: {
+  foto: {
     type: String,
   },
   grupo: {

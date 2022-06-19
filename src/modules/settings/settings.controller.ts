@@ -11,20 +11,25 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Settings } from 'http2';
 import { SettingsDto } from './dto/settings.dto';
 import { SettingsService } from './settings.service';
 
 @ApiTags('Settings')
-@UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiForbiddenResponse({ description: 'Você precisa estar logado' })
 @Controller('settings')
 export class SettingsController {
   constructor(private readonly settingsService: SettingsService) {}
 
   @Get()
-  @ApiForbiddenResponse({ description: 'Acesso negado' })
   @HttpCode(HttpStatus.OK)
   public async index(): Promise<Settings[]> {
     return this.settingsService.index();
@@ -38,6 +43,7 @@ export class SettingsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({ status: 409, description: 'Settings já existe' })
   public async store(@Body() settingsDto: SettingsDto): Promise<Settings> {
     return this.settingsService.store(settingsDto);
   }

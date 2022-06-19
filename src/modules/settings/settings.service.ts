@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Settings } from 'http2';
 import { Model } from 'mongoose';
+import { User } from '../users/models/users.model';
 import { SettingsDto } from './dto/settings.dto';
 
 @Injectable()
@@ -20,6 +21,10 @@ export class SettingsService {
   }
 
   public async store(settingsDto: SettingsDto): Promise<Settings> {
+    const match = await this.settingsModel.findOne({ user: settingsDto.user });
+    if (match) {
+      throw new ConflictException('Settings já existe!');
+    }
     const settings = new this.settingsModel(settingsDto);
     return settings.save();
   }

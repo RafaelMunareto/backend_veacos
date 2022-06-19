@@ -11,49 +11,55 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
-import { Settings } from 'http2';
-import { SettingsDto } from './dto/settings.dto';
-import { SettingsService } from './settings.service';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { GrupoDto } from './dto/grupo.dto';
+import { GrupoService } from './grupo.service';
+import { Grupo } from './models/grupo.model';
 
 @ApiTags('Grupo')
-@UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiForbiddenResponse({ description: 'Você precisa estar logado' })
 @Controller('grupo')
 export class GrupoController {
-  constructor(private readonly settingsService: SettingsService) {}
+  constructor(private readonly grupoService: GrupoService) {}
 
   @Get()
-  @ApiForbiddenResponse({ description: 'Acesso negado' })
   @HttpCode(HttpStatus.OK)
-  public async index(): Promise<Settings[]> {
-    return this.settingsService.index();
+  public async index(): Promise<Grupo[]> {
+    return this.grupoService.index();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   public async show(@Param('id') id: string) {
-    return this.settingsService.show(id);
+    return this.grupoService.show(id);
   }
 
   @Post()
+  @ApiResponse({ status: 409, description: 'Grupo já existe' })
   @HttpCode(HttpStatus.CREATED)
-  public async store(@Body() settingsDto: SettingsDto): Promise<Settings> {
-    return this.settingsService.store(settingsDto);
+  public async store(@Body() grupoDto: GrupoDto): Promise<Grupo> {
+    return this.grupoService.store(grupoDto);
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   public async update(
     @Param('id') id: String,
-    @Body() settingsDto: SettingsDto,
-  ): Promise<Settings> {
-    return this.settingsService.update(settingsDto, id);
+    @Body() grupoDto: GrupoDto,
+  ): Promise<Grupo> {
+    return this.grupoService.update(grupoDto, id);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   public async delete(@Param('id') id: string) {
-    return this.settingsService.delete(id);
+    return this.grupoService.delete(id);
   }
 }

@@ -1,4 +1,9 @@
-import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -22,18 +27,22 @@ export class UsersService {
   }
 
   public async signup(signupDto: SignupDto): Promise<User> {
+    const match = await this.usersModel.findOne({ email: signupDto.email });
+    if (match) {
+      throw new ConflictException('Usuário já existe');
+    }
     const user = new this.usersModel(signupDto);
     return user.save();
   }
 
   public async signin(
     signinDto: SigninDto,
-  ): Promise<{ name: string; jwtToken: string; email: string }> {
+  ): Promise<{ id: string; name: string; jwtToken: string; email: string }> {
     const user = await this.findByEmail(signinDto.email);
     await this.checkPassword(signinDto.password, user);
     await this.findByEmail(user.email);
     const jwtToken = await this.authService.createAccessToken(user._id);
-    return { name: user.name, jwtToken, email: user.email };
+    return { id: user.id, name: user.name, jwtToken, email: user.email };
   }
 
   public async sendEmailPassword(email: String, res) {

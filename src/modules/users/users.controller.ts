@@ -27,7 +27,7 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiResponse({ status: 409, description: 'Conflito de email' })
+  @ApiResponse({ status: 409, description: 'Usuário já existe.' })
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
