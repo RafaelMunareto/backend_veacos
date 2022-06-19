@@ -5,7 +5,7 @@ import { GrupoDto } from './dto/grupo.dto';
 import { Grupo } from './models/settings.model copy';
 
 @Injectable()
-export class SettingsService {
+export class GrupoService {
   constructor(
     @InjectModel('Grupo')
     private readonly grupoModel: Model<Grupo>,

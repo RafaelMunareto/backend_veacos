@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -41,7 +42,7 @@ export class SettingsController {
     return this.settingsService.store(settingsDto);
   }
 
-  @Post()
+  @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   public async update(
     @Param('id') id: String,

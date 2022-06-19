@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Settings } from 'http2';
 import { Model } from 'mongoose';
-import { User } from '../users/models/users.model';
 import { SettingsDto } from './dto/settings.dto';
 
 @Injectable()
