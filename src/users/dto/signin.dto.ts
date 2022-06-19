@@ -10,7 +10,6 @@ export class SigninDto {
 
   @ApiProperty({ description: 'Senha do usuário.' })
   @IsNotEmpty()
-  @IsString()
   @MinLength(4)
   password: string;
 }

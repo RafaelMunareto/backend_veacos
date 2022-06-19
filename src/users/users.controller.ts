@@ -39,7 +39,6 @@ export class UsersController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  @UseFilters(new I18nValidationExceptionFilter())
   public async signin(
     @Body() signinDto: SigninDto,
   ): Promise<{ name: string; jwtToken: string; email: string }> {
