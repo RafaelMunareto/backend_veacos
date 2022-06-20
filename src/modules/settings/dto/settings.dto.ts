@@ -8,10 +8,10 @@ export class SettingsDto {
   foto: string;
 
   @ApiProperty({ description: 'Grupo do usuário.' })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Campo obrigatório' })
   grupo: Grupo;
 
   @ApiProperty({ description: 'Usuário' })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Campo obrigatório' })
   user: User;
 }
