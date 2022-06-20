@@ -5,8 +5,6 @@ import { Grupo } from '../models/grupo.model';
 
 export class SettingsDto {
   @ApiProperty({ description: 'Imagem do usuário.' })
-  @IsNotEmpty()
-  @IsString()
   foto: string;
 
   @ApiProperty({ description: 'Grupo do usuário.' })

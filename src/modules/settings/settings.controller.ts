@@ -8,9 +8,12 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiForbiddenResponse,
@@ -44,17 +47,23 @@ export class SettingsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({ status: 409, description: 'Settings já existe' })
-  public async store(@Body() settingsDto: SettingsDto): Promise<Settings> {
-    return this.settingsService.store(settingsDto);
+  @UseInterceptors(FileInterceptor('foto'))
+  public async store(
+    @Body() settingsDto: SettingsDto,
+    @UploadedFile() foto: Express.Multer.File,
+  ): Promise<Settings> {
+    return this.settingsService.store(settingsDto, foto);
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
+  @UseInterceptors(FileInterceptor('foto'))
   public async update(
     @Param('id') id: String,
     @Body() settingsDto: SettingsDto,
+    @UploadedFile() foto: Express.Multer.File,
   ): Promise<Settings> {
-    return this.settingsService.update(settingsDto, id);
+    return this.settingsService.update(settingsDto, id, foto);
   }
 
   @Delete(':id')

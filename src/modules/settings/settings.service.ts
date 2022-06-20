@@ -24,18 +24,33 @@ export class SettingsService {
     return await this.settingsModel.findById(id).populate(['user', 'grupo']);
   }
 
-  public async store(settingsDto: SettingsDto): Promise<Settings> {
+  public async store(
+    settingsDto: SettingsDto,
+    foto: Express.Multer.File,
+  ): Promise<Settings> {
     const match = await this.settingsModel.findOne({ user: settingsDto.user });
     if (match) {
       throw new ConflictException('Settings já existe!');
     }
-    const settings = new this.settingsModel(settingsDto);
+    const settings = new this.settingsModel({
+      foto: foto.filename,
+      grupo: settingsDto.grupo,
+      user: settingsDto.user,
+    });
     return settings.save();
   }
-  public async update(settingsDto: SettingsDto, id: String): Promise<Settings> {
+  public async update(
+    settingsDto: SettingsDto,
+    id: String,
+    foto: Express.Multer.File,
+  ): Promise<Settings> {
     await this.checkId(id);
     const grupo = await this.settingsModel.findById(id);
-    return grupo.updateOne(settingsDto);
+    return grupo.updateOne({
+      foto: foto.filename,
+      grupo: settingsDto.grupo,
+      user: settingsDto.user,
+    });
   }
   public async delete(id: String): Promise<Settings> {
     await this.checkId(id);

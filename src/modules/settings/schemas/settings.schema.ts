@@ -1,7 +1,4 @@
 import * as mongoose from 'mongoose';
-import { UsersSchema } from 'src/modules/users/schemas/users.schema';
-import { GrupoSchema } from './grupo.schema';
-
 export const SettingsSchema = new mongoose.Schema({
   id: {
     type: String,
