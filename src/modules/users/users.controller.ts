@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -48,8 +49,8 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @HttpCode(HttpStatus.OK)
-  public async findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  public async index(): Promise<User[]> {
+    return this.usersService.index();
   }
 
   @Get('mail/change_password/:email')
@@ -62,5 +63,15 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   public async changePassword(@Param('id') id: string, @Body() password) {
     return this.usersService.changePassword(id, password);
+  }
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  public async delete(@Param('id') id: string) {
+    return this.usersService.delete(id);
+  }
+  @Put(':id')
+  @HttpCode(HttpStatus.OK)
+  public async update(@Body() user, @Param('id') id: string) {
+    return this.usersService.update(user, id);
   }
 }

@@ -22,10 +22,6 @@ export class UsersService {
     private mailService: MailService,
   ) {}
 
-  public async findAll(): Promise<User[]> {
-    return this.usersModel.find();
-  }
-
   public async signup(signupDto: SignupDto): Promise<User> {
     const match = await this.usersModel.findOne({ email: signupDto.email });
     if (match) {
@@ -64,7 +60,7 @@ export class UsersService {
   }
 
   private async checkPassword(password: string, user: User): Promise<boolean> {
-    const match = password == user.password;
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       throw new NotFoundException('Senha inválida.');
     }
@@ -77,5 +73,27 @@ export class UsersService {
       throw new NotFoundException('Email não encontrado.');
     }
     return user;
+  }
+
+  public async index(): Promise<User[]> {
+    return this.usersModel.find();
+  }
+
+  public async update(grupoDto: SignupDto, id: String): Promise<User> {
+    await this.checkId(id);
+    const grupo = await this.usersModel.findById(id);
+    return grupo.updateOne(grupoDto);
+  }
+  public async delete(id: String): Promise<User> {
+    await this.checkId(id);
+    const grupo = await this.usersModel.findById(id);
+    return grupo.deleteOne();
+  }
+
+  public async checkId(id: String) {
+    const user = await this.usersModel.findById(id);
+    if (!user) {
+      throw new NotFoundException('Grupo não encontrado.');
+    }
   }
 }
