@@ -1,5 +1,4 @@
 import { Document } from 'mongoose';
-import { Multer } from 'multer';
 import { User } from 'src/modules/users/models/users.model';
 import { Grupo } from './grupo.model';
 
